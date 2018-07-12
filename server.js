@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 app.get('/', function(req, res) {
-	res.send("HELLO");
+	res.render('index');
 })
 
 app.listen(8080, function(){
@@ -10,3 +10,4 @@ app.listen(8080, function(){
 })
 
 app.set("view engine", "ejs");
+app.use(express.static('public'));

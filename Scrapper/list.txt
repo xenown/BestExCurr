@@ -1,4 +1,7 @@
 https://www.bmo.com/home/personal/banking/rates/foreign-exchange
+
+//*[@id="ratesTable"]
+
 https://www.td.com/ca/en/personal-banking/solutions/currency-exchange/#/fxcalculator
 https://online.royalbank.com/cgi-bin/tools/foreign-exchange-calculator/start.cgi#
 http://www.scotiabank.com/rates/fxrates.html
