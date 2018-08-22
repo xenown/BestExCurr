@@ -1,7 +1,7 @@
 {
-  "name": "website",
+  "name": "BestExCurr",
   "version": "1.0.0",
-  "description": "My website",
+  "description": "Find the best currency exchange rates in Ottawa!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,10 @@
   "author": "Frank W",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "ejs": "^2.6.1",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
   }
 }

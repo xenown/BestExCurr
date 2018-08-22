@@ -1,9 +1,17 @@
 body {
-  width: 800px;
-  margin: 0 auto;
   font-family: 'Open Sans', sans-serif;
+  margin: 0em;
 }
+
 .header {
-  width: 800;
-  margin: 0 auto;
+	background-color: #5DCCCC;
 }
+
+.title{
+	padding: 0.2em 0em 0.2em 1em;	
+}
+
+.data{
+padding: 0.2em 0em 0.2em 1em;		
+}
+
