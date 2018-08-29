@@ -7,7 +7,6 @@ app.use(express.static('public'));
 
 app.get('/', function(req, res) {
 	const d = scrape.scrape(res);
-	console.log("Waiting");
 });
 
 app.listen(8080, function(){

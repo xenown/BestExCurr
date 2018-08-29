@@ -1,14 +1,27 @@
 module.exports = {
 	scrape: (res) => {
 		const PROMISES = [];
+		const set = new Set();
+		PROMISES.push(new Promise((resolve, reject) => {
+			sb(resolve, set);
+		}));
 
 		PROMISES.push(new Promise((resolve, reject) => {
-			sb(resolve);
+			dj(resolve, set);
+		}));
+
+		PROMISES.push(new Promise((resolve, reject) => {
+			hsbs(resolve, set);
+		}));
+
+		PROMISES.push(new Promise((resolve, reject) => {
+			uex(resolve, set);
 		}));
 
 		Promise.all(PROMISES).then(values => {
-			//console.log(values);
-			res.render('index', {date: new Date().toDateString(), data: values});
+			console.log(set);
+			d = new Date();
+			res.render('index', {date: d.toDateString(), time: d.getHours() + ":" + d.getMinutes(), data: values});
 		});
 	}
 }
@@ -50,7 +63,7 @@ function rbc(){
 	//selenium
 }
 
-function sb(resolve){
+function sb(resolve, set){
 	const cheerio = require("cheerio");
 	const rp = require("request-promise");
 
@@ -66,15 +79,23 @@ function sb(resolve){
 		//console.log($("tbody").children().first().children().first().text());
 		$("tbody").children().each((i, elem) => {
 			const inner = $("tbody").children().eq(i).children();
+			let s = "1000";
+			if (inner.eq(3).text() != "N/A"){
+				s = inner.eq(3).text();
+			}
+			let c = inner.eq(1).text().slice(-4).slice(0, 3);
+			set.add(c);
 			data.push({
 				country: inner.eq(0).text(),
-				code: inner.eq(1).text(),
+				code: c,
 				buy: inner.eq(2).text(),
-				sell: inner.eq(3).text()
+				sell: s
 			});
 		});
-		resolve(data);
-		//return data;
+		data.shift();
+		let d = ["Scotiabank", data];
+		console.log(d);
+		resolve(d);
 	})
 	.catch((err) => {
 		console.log("BMO retrieve fail");
@@ -82,14 +103,105 @@ function sb(resolve){
 	});
 }
 
-function dj(){
-	//normal scrape
+function dj(resolve, set){
+	const cheerio = require("cheerio");
+	const rp = require("request-promise");
+
+	const options = {
+		uri: "https://www.desjardins.com/ca/rates-returns/exchange-rates/cheques-drafts-wire-transfers/",
+		transform: function(body){
+			return cheerio.load(body);
+		}
+	}
+	rp(options)
+	.then(($) => {
+		let data = [];
+		$("tbody").children().each((i, elem) => {
+			const inner = $("tbody").children().eq(i).children();
+			let c = inner.eq(2).text();
+			set.add(c);
+			data.push({
+				country: inner.eq(0).text(),
+				code: inner.eq(2).text(),
+				buy: inner.eq(3).text(),
+				sell: inner.eq(4).text()
+			});
+		});
+		let d = ["Desjardins", data];
+		console.log(d);
+		resolve(d);
+	})
+	.catch((err) => {
+		console.log("Desjardins retrieve fail");
+		console.log(err);
+	});
 }
 
-function hsbs(){
-	//normal scrape
+function hsbs(resolve, set){
+	const cheerio = require("cheerio");
+	const rp = require("request-promise");
+
+	const options = {
+		uri: "https://www.desjardins.com/ca/rates-returns/exchange-rates/cheques-drafts-wire-transfers/",
+		transform: function(body){
+			return cheerio.load(body);
+		}
+	}
+	rp(options)
+	.then(($) => {
+		let data = [];
+		$("tbody").first().children().each((i, elem) => {
+			const inner = $("tbody").first().children().eq(i).children();
+			let c = inner.eq(2).text();
+			set.add(c);
+			data.push({
+				country: inner.eq(0).text(),
+				code: inner.eq(2).text(),
+				buy: inner.eq(3).text(),
+				sell: inner.eq(4).text()
+			});
+		});
+		let d = ["HSBS", data];
+		console.log(d);
+		resolve(d);
+	})
+	.catch((err) => {
+		console.log("HSBS retrieve fail");
+		console.log(err);
+	});
 }
 
-function uex(){
-	//normal
+function uex(resolve, set){
+	const cheerio = require("cheerio");
+	const rp = require("request-promise");
+
+	const options = {
+		uri: "https://www.uexchange.ca/exchange-rates.php",
+		transform: function(body){
+			return cheerio.load(body);
+		}
+	}
+	rp(options)
+	.then(($) => {
+		let data = [];
+		$("tbody").first().children().each((i, elem) => {
+			const inner = $("tbody").first().children().eq(i).children();
+			let c = inner.eq(2).text();
+			set.add(c);
+			data.push({
+				country: inner.eq(0).text().slice(2),
+				code: inner.eq(2).text(),
+				buy: inner.eq(3).text(),
+				sell: inner.eq(4).text()
+			});
+		});
+		data.shift();
+		let d = ["UEX", data];
+		console.log(d);
+		resolve(d);
+	})
+	.catch((err) => {
+		console.log("UEX retrieve fail");
+		console.log(err);
+	});
 }

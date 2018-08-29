@@ -15,11 +15,24 @@
 
     <div class="data">
       <h4>Today is <%= date %></h4>
-      <h4>Last Update Time: </h4>
+      <h4>Last Update Time: <%= time %></h4>
       
 
       <table>
-        
+          <tr>
+            <th>Country</td> 
+            <th>Currency Code</td>
+            <th>Buying Price</td>
+            <th>Selling Price</td>
+          </tr>
+        <% for (let i = 1; i < data[0].length; i++){ %>
+          <tr>
+            <td> <%= data[0][i].country %> </td> 
+            <td> <%= data[0][i].code %> </td>
+            <td> <%= data[0][i].buy %> </td>
+            <td> <%= data[0][i].sell %> </td>
+          </tr>
+        <% } %>
       </table>
     </div>
   </body>
