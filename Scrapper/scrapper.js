@@ -31,8 +31,6 @@ module.exports = {
 			console.log(d[5].length);
 
 			console.log(d);
-
-
 			D = new Date();
 			res.render('index', {date: D.toDateString(), time: D.getHours() + ":" + D.getMinutes(), data: d});
 		});
@@ -88,12 +86,11 @@ function sb(resolve, set, d, map){
 	}
 	rp(options)
 	.then(($) => {
-		let data = [];
 		for (let i = 1; i < $("tbody").children().length; i++){
 			const inner = $("tbody").children().eq(i).children();
 			let c = inner.eq(1).text().slice(-4).slice(0, 3);
 			if (set.has(c)){
-				d[2][map.c] = [inner.eq(2).text(), inner.eq(3).text()];
+				d[2][map[c]] = [inner.eq(2).text(), inner.eq(3).text()];
 			} else {
 				set.add(c);
 				let index = map.count;
@@ -101,8 +98,9 @@ function sb(resolve, set, d, map){
 				d[1][index] = c;
 				d[2][index] = [inner.eq(2).text(), inner.eq(3).text()];
 				d[3][index] = d[4][index] = d[5][index] = ["N/A", "N/A"];
-				map.c = index;
+				map[c] = index;
 				map.count++;
+				//console.log(d);
 			}
 			// let s = "1000";
 			// if (inner.eq(3).text() != "N/A"){
@@ -140,12 +138,11 @@ function dj(resolve, set, d, map){
 	}
 	rp(options)
 	.then(($) => {
-		let data = [];
 		for (let i = 0; i < $("tbody").children().length; i++){
 			const inner = $("tbody").children().eq(i).children();
 			let c = inner.eq(2).text();
 			if (set.has(c)){
-				d[3][map.c] = [inner.eq(3).text(), inner.eq(4).text()];
+				d[3][map[c]] = [inner.eq(3).text(), inner.eq(4).text()];
 			} else {
 				set.add(c);
 				let index = map.count;
@@ -153,8 +150,9 @@ function dj(resolve, set, d, map){
 				d[1][index] = c;
 				d[3][index] = [inner.eq(3).text(), inner.eq(4).text()];
 				d[2][index] = d[4][index] = d[5][index] = ["N/A", "N/A"];
-				map.c = index;
+				map[c] = index;
 				map.count++;
+				//console.log(d);
 			}
 
 			// set.add(c);
@@ -182,28 +180,28 @@ function hsbs(resolve, set, d, map){
 	const rp = require("request-promise");
 
 	const options = {
-		uri: "https://www.desjardins.com/ca/rates-returns/exchange-rates/cheques-drafts-wire-transfers/",
+		uri: "https://www.hsbc.ca/1/2/personal/banking/accounts/foreign-currency-accounts/foreign-currency-exchange",
 		transform: function(body){
 			return cheerio.load(body);
 		}
 	}
 	rp(options)
 	.then(($) => {
-		let data = [];
-		for (let i = 0; i < $("tbody").children().length; i++){
+		for (let i = 1; i < $("tbody").first().children().length; i++){
 			const inner = $("tbody").first().children().eq(i).children();
-			let c = inner.eq(2).text();
+			let c = inner.eq(1).text();
 			if (set.has(c)){
-				d[4][map.c] = [inner.eq(3).text(), inner.eq(4).text()];
+				d[4][map[c]] = [inner.eq(2).text(), inner.eq(3).text()];
 			} else {
 				set.add(c);
 				let index = map.count;
 				d[0][index] = inner.eq(0).text();
 				d[1][index] = c;
-				d[4][index] = [inner.eq(3).text(), inner.eq(4).text()];
+				d[4][index] = [inner.eq(2).text(), inner.eq(3).text()];
 				d[2][index] = d[3][index] = d[5][index] = ["N/A", "N/A"];
-				map.c = index;
+				map[c] = index;
 				map.count++;
+				//console.log(d);
 			}
 			// set.add(c);
 			// data.push({
@@ -237,12 +235,11 @@ function uex(resolve, set, d, map){
 	}
 	rp(options)
 	.then(($) => {
-		let data = [];
 		for (let i = 1; i < $("tbody").first().children().length; i++){
 			const inner = $("tbody").first().children().eq(i).children();
 			let c = inner.eq(2).text();
 			if (set.has(c)){
-				d[5][map.c] = [inner.eq(4).text(), inner.eq(3).text()];
+				d[5][map[c]] = [inner.eq(4).text(), inner.eq(3).text()];
 			} else {
 				set.add(c);
 				let index = map.count;
@@ -250,8 +247,9 @@ function uex(resolve, set, d, map){
 				d[1][index] = c;
 				d[5][index] = [inner.eq(4).text(), inner.eq(3).text()];
 				d[2][index] = d[3][index] = d[4][index] = ["N/A", "N/A"];
-				map.c = index;
+				map[c] = index;
 				map.count++;
+				//console.log(d);
 			}
 			// set.add(c);
 			// data.push({
