@@ -18,19 +18,33 @@
       <h4>Last Update Time: <%= time %></h4>
       
 
-      <table>
+      <table border = "1">
           <tr>
-            <th>Country</td> 
-            <th>Currency Code</td>
-            <th>Buying Price</td>
-            <th>Selling Price</td>
+            <th rowspan = "2">Country</td> 
+            <th rowspan = "2">Currency Code</td>
+            <th colspan = "4">Buying Price</td>
+            <th colspan = "4">Selling Price</td>
           </tr>
-        <% for (let i = 1; i < data[0].length; i++){ %>
           <tr>
-            <td> <%= data[0][i].country %> </td> 
-            <td> <%= data[0][i].code %> </td>
-            <td> <%= data[0][i].buy %> </td>
-            <td> <%= data[0][i].sell %> </td>
+            <th>SCOTIABANK</th>
+            <th>DESJARDINS</th>
+            <th>HSBC</th>
+            <th>UEXCHANGE</th>
+            <th>SCOTIABANK</th>
+            <th>DESJARDINS</th>
+            <th>HSBC</th>
+            <th>UEXCHANGE</th>
+          </tr>
+        <% for (let i = 0; i < data[0].length; i++){ %>
+          <tr>
+            <th> <%= data[0][i] %> </th>
+            <th> <%= data[1][i] %> </th>
+            <% for (let j = 2; j < 6; j++){ %>
+              <th> <%= data[j][i][0] %> </th>
+            <% } %>
+            <% for (let j = 2; j < 6; j++){ %>
+              <th> <%= data[j][i][1] %> </th>
+            <% } %>  
           </tr>
         <% } %>
       </table>
